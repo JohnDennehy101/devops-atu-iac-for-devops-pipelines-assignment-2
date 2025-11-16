@@ -3,12 +3,12 @@ variable "project" {
   default     = "iac-for-devops-pipelines-assignment-2"
 }
 
-variable "tf_state_bucket" {
+variable "terraform_state_bucket" {
   description = "S3 bucket name in AWS for storing Terraform state"
   default     = "iac-for-devops-pipelines-assignment-2-terraform-state"
 }
 
-variable "tf_state_lock_table" {
+variable "terraform_state_lock_table" {
   description = "Dynamo DB table name for Terraform state locking"
   default     = "iac-for-devops-pipelines-assignment-2-terraform-lock"
 }
