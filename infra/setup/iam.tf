@@ -25,8 +25,8 @@ data "aws_iam_policy_document" "terraform_backend" {
     effect  = "Allow"
     actions = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
     resources = [
-      "arn:aws:s3:::${var.terraform_state_bucket}/terraform-state-setup/*",
-      "arn:aws:s3:::${var.terraform_state_bucket}/terraform-state-setup-env/*"
+      "arn:aws:s3:::${var.terraform_state_bucket}/terraform-state-deploy/*",
+      "arn:aws:s3:::${var.terraform_state_bucket}/terraform-state-deploy-env/*"
     ]
   }
   statement {
