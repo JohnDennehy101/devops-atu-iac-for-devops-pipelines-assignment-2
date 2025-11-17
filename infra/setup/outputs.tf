@@ -8,3 +8,8 @@ output "cd_user_access_key_secret" {
   value       = aws_iam_access_key.cd.secret
   sensitive   = true
 }
+
+output "ecr_repo_static_site" {
+  description = "ECR repo url for image which will contain static site"
+  value       = aws_ecr_repository.static_site.repository_url
+}
