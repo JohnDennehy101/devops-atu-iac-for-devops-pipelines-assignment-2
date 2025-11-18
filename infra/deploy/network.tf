@@ -90,3 +90,72 @@ resource "aws_subnet" "private_b" {
     Name = "${local.prefix}-private-b"
   }
 }
+
+resource "aws_security_group" "vpc_endpoint_access" {
+  description = "Endpoints access"
+  name        = "${local.prefix}-endpoints-access"
+  vpc_id      = aws_vpc.primary.id
+
+  ingress {
+    cidr_blocks = [aws_vpc.primary.cidr_block]
+    protocol    = "tcp"
+    from_port   = 443
+    to_port     = 443
+  }
+}
+
+resource "aws_vpc_endpoint" "ecr" {
+  vpc_id              = aws_vpc.primary.id
+  service_name        = "com.amazonaws.${data.aws_region.current.name}.ecr.api"
+  vpc_endpoint_type   = "Interface"
+  private_dns_enabled = true
+  subnet_ids          = [aws_subnet.private_a.id, aws_subnet.private_b.id]
+  security_group_ids = [
+    aws_security_group.vpc_endpoint_access.id
+  ]
+
+  tags = {
+    Name = "${local.prefix}-ecr-end-point"
+  }
+}
+
+resource "aws_vpc_endpoint" "dkr" {
+  vpc_id              = aws_vpc.primary.id
+  service_name        = "com.amazonaws.${data.aws_region.current.name}.ecr.dkr"
+  vpc_endpoint_type   = "Interface"
+  private_dns_enabled = true
+  subnet_ids          = [aws_subnet.private_a.id, aws_subnet.private_b.id]
+  security_group_ids = [
+    aws_security_group.vpc_endpoint_access.id
+  ]
+
+  tags = {
+    Name = "${local.prefix}-dkr-end-point"
+  }
+}
+
+resource "aws_vpc_endpoint" "cloudwatch_logs" {
+  vpc_id              = aws_vpc.primary.id
+  service_name        = "com.amazonaws.${data.aws_region.current.name}.logs"
+  vpc_endpoint_type   = "Interface"
+  private_dns_enabled = true
+  subnet_ids          = [aws_subnet.private_a.id, aws_subnet.private_b.id]
+  security_group_ids = [
+    aws_security_group.vpc_endpoint_access.id
+  ]
+
+  tags = {
+    Name = "${local.prefix}-cloudwatch-end-point"
+  }
+}
+
+resource "aws_vpc_endpoint" "s3" {
+  vpc_id            = aws_vpc.primary.id
+  service_name      = "com.amazonaws.${data.aws_region.current.name}.s3"
+  vpc_endpoint_type = "Gateway"
+  route_table_ids   = [aws_vpc.primary.default_route_table_id]
+
+  tags = {
+    Name = "${local.prefix}-s3-end-point"
+  }
+}
