@@ -150,3 +150,39 @@ resource "aws_iam_user_policy_attachment" "ec2" {
   user       = aws_iam_user.cd.name
   policy_arn = aws_iam_policy.ec2.arn
 }
+
+###############################################
+# Define Policy for ECS access for CI/CD user #
+###############################################
+
+data "aws_iam_policy_document" "ecs" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecs:DescribeClusters",
+      "ecs:DeregisterTaskDefinition",
+      "ecs:DeleteCluster",
+      "ecs:DescribeServices",
+      "ecs:UpdateService",
+      "ecs:DeleteService",
+      "ecs:DescribeTaskDefinition",
+      "ecs:CreateService",
+      "ecs:RegisterTaskDefinition",
+      "ecs:CreateCluster",
+      "ecs:UpdateCluster",
+      "ecs:TagResource",
+    ]
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_policy" "ecs" {
+  name        = "${aws_iam_user.cd.name}-ecs"
+  description = "Allow user to manage ECS resources."
+  policy      = data.aws_iam_policy_document.ecs.json
+}
+
+resource "aws_iam_user_policy_attachment" "ecs" {
+  user       = aws_iam_user.cd.name
+  policy_arn = aws_iam_policy.ecs.arn
+}
