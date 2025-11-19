@@ -49,7 +49,12 @@ resource "aws_ecs_task_definition" "primary" {
           awslogs-region        = data.aws_region.current.name
           awslogs-stream-prefix = "static"
         }
-      }
+      },
+      portMappings = [{
+        containerPort = 80
+        hostPort      = 80
+        protocol      = "tcp"
+      }]
     },
   ])
 
@@ -63,6 +68,14 @@ resource "aws_security_group" "ecs_service" {
   description = "Access for ecs service"
   name        = "${local.prefix}-ecs-service"
   vpc_id      = aws_vpc.primary.id
+
+  ingress {
+    from_port = 80
+    to_port   = 80
+    protocol  = "tcp"
+    # TODO: Replace with Load balancer ref when in place
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   egress {
     from_port   = 443
