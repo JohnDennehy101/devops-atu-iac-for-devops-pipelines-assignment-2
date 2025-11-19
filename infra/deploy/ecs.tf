@@ -15,6 +15,10 @@ resource "aws_iam_role_policy_attachment" "task_execute_role" {
   policy_arn = aws_iam_policy.task_execute_role_policy.arn
 }
 
+resource "aws_cloudwatch_log_group" "ecs_logs" {
+  name = "${local.prefix}-primary"
+}
+
 resource "aws_ecs_cluster" "primary" {
   name = "${local.prefix}-cluster"
 }
