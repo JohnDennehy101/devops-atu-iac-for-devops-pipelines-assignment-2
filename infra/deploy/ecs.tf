@@ -73,8 +73,7 @@ resource "aws_security_group" "ecs_service" {
     from_port = 80
     to_port   = 80
     protocol  = "tcp"
-    # TODO: Replace with Load balancer ref when in place
-    cidr_blocks = ["0.0.0.0/0"]
+    source_security_group_id = aws_security_group.lb.id
   }
 
   egress {
@@ -94,10 +93,12 @@ resource "aws_ecs_service" "primary" {
   platform_version       = "1.4.0"
   enable_execute_command = true
   network_configuration {
-    # TODO: Remove once load balancer in place
-    assign_public_ip = true
-    # TODO: make these private subnets once load balancer in place
-    subnets         = [aws_subnet.public_a.id, aws_subnet.public_b.id]
+    subnets         = [aws_subnet.private_a.id, aws_subnet.private_b.id]
     security_groups = [aws_security_group.ecs_service.id]
+  }
+  load_balancer {
+    target_group_arn = aws_lb_target_group.static_site.arn
+    container_name   = "static_site"
+    container_port   = 80
   }
 }
