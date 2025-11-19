@@ -42,7 +42,6 @@ resource "aws_ecs_task_definition" "primary" {
       image             = var.ecr_static_site_image
       essential         = true
       memoryReservation = 512
-      user              = "static-user"
       logConfiguration = {
         logDriver = "awslogs"
         options = {
