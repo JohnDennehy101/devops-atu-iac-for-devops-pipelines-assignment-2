@@ -22,3 +22,18 @@ resource "aws_cloudwatch_log_group" "ecs_logs" {
 resource "aws_ecs_cluster" "primary" {
   name = "${local.prefix}-cluster"
 }
+
+resource "aws_ecs_task_definition" "primary" {
+  family                   = "${local.prefix}-primary"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = 256
+  memory                   = 512
+  execution_role_arn       = aws_iam_role.task_execute_role.arn
+  container_definitions    = jsonencode([])
+
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture        = "X86_64"
+  }
+}
