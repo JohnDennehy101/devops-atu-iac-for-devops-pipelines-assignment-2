@@ -12,3 +12,7 @@ variable "contact" {
   description = "Contact email for created resources (useful if team environment)"
   default     = "L00196611@atu.ie"
 }
+
+variable "ecr_primary_image" {
+  description = "ECR repo path that contains image with static site"
+}
