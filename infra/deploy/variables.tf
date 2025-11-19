@@ -16,3 +16,19 @@ variable "contact" {
 variable "ecr_static_site_image" {
   description = "ECR repo path that contains image with static site"
 }
+
+variable "dns_zone_name" {
+  description = "domain name"
+  default     = "iacmoduleassignmentdomain.click"
+}
+
+variable "subdomain" {
+  description = "subdomain for different environments"
+  type        = map(string)
+
+  default = {
+    prod    = "static"
+    staging = "static.staging"
+    dev     = "static.dev"
+  }
+}
