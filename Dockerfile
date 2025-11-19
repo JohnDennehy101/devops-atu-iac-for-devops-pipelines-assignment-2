@@ -10,8 +10,10 @@ ENV LISTEN_PORT=80
 
 USER root
 
-RUN chmod +x /run.sh && \
-    chown -R nginx:nginx /usr/share/nginx/html
+RUN chmod +x /run.sh \
+ && chown -R nginx:nginx /usr/share/nginx/html \
+ && mkdir -p /var/cache/nginx/client_temp \
+ && chown -R nginx:nginx /var/cache/nginx
 
 USER nginx
 
