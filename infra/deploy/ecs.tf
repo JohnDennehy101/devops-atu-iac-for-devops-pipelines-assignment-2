@@ -33,7 +33,7 @@ resource "aws_ecs_task_definition" "primary" {
   container_definitions = jsonencode([
     {
       name              = "static_site"
-      image             = var.ecr_primary_image
+      image             = var.ecr_static_site_image
       essential         = true
       memoryReservation = 512
       user              = "static-user"
