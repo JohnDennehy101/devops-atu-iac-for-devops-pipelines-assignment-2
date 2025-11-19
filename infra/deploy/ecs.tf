@@ -15,6 +15,11 @@ resource "aws_iam_role_policy_attachment" "task_execute_role" {
   policy_arn = aws_iam_policy.task_execute_role_policy.arn
 }
 
+resource "aws_iam_role" "static_task_role" {
+  name               = "${local.prefix}-static-task-role"
+  assume_role_policy = file("./templates/ecs/task-assume-role-policy.json")
+}
+
 resource "aws_cloudwatch_log_group" "ecs_logs" {
   name = "${local.prefix}-primary"
 }
@@ -27,6 +32,7 @@ resource "aws_ecs_task_definition" "primary" {
   family                   = "${local.prefix}-primary"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
+  task_role_arn            = aws_iam_role.static_task_role.arn
   cpu                      = 256
   memory                   = 512
   execution_role_arn       = aws_iam_role.task_execute_role.arn
