@@ -13,6 +13,6 @@ variable "contact" {
   default     = "L00196611@atu.ie"
 }
 
-variable "ecr_primary_image" {
+variable "ecr_static_site_image" {
   description = "ECR repo path that contains image with static site"
 }
