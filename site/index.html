@@ -21,11 +21,15 @@
       <p>Site running inside ECS container, served by NGINX.</p>
       <p>
         <strong> Container HostName:</strong>
-        <span id="hostname"></span>
+        <span id="host"></span>
       </p>
     </div>
     <script>
-      document.getElementById("hostname").innerText = window.location.hostname;
+      fetch("/hostname")
+        .then((res) => res.text())
+        .then(
+          (text) => (document.getElementById("host").innerText = text.trim())
+        );
     </script>
   </body>
 </html>
