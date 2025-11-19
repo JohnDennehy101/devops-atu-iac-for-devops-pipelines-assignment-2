@@ -15,6 +15,4 @@ RUN chmod +x /run.sh \
  && mkdir -p /var/cache/nginx/client_temp \
  && chown -R nginx:nginx /var/cache/nginx
 
-USER nginx
-
 CMD ["/run.sh"]
