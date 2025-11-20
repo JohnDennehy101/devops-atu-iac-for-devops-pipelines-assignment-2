@@ -1,5 +1,26 @@
 # devops-atu-iac-for-devops-pipelines-assignment-2
 
+## Architecture
+
+There are two different Terraform architectures in this repo.
+
+- setup
+- deploy
+
+The setup workspace is used to provide the resources needed for the environment deployment to take place. Primarily, this consists of creating the IAM user in use in the GitHub Actions pipeline with the required permissions to deploy the Terraform resources.
+
+The deploy workspace is used to provision and configure the resources needed for the target infrastructure such as VPC, subnets, load balancer, route 53 configuration etc.
+
+Brainboard was used to create the below architectural diagrams (it seems a useful service, free month trial on signup).
+
+### Setup Workspace Architecture
+
+<img src="documentation/images/brainboard-setup-infra.png" alt="Brainboard arch diagram setup" width="1200" />
+
+### Deploy Workspace Architecture
+
+<img src="documentation/images/brainboard-deploy-infra.png" alt="Brainboard arch diagram deploy" width="1200" />
+
 ## Setup
 
 You can fork the repo to get this infrastructure up and running.
@@ -137,6 +158,7 @@ You should then be able to run the following commands to setup the IAM user for 
 ```
 docker compose run --rm terraform -chdir=setup apply
 ```
+
 Review the changes, on pop-up of the review box, type 'yes' and click enter.
 
 The outputs should be shown which can then be used to populate the GitHub actions secrets and variables that are needed for the pipeline (as mentioned above).
