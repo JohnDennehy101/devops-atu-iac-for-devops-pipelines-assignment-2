@@ -88,6 +88,14 @@ output "ecr_repo_static_site" {
 
 On creation of a user in Docker Hub, the username used for creation can be taken from there.
 
+#### Custom Domain
+
+It is also required to purchase a custom domain on route 53 on AWS.
+
+<img src="documentation/images/registered-domain.png" alt="Custom Domain" width="800" />
+
+This can be whatever you wish, once you have registered the domain, you will need to update the value in the code [here](https://github.com/JohnDennehy101/devops-atu-iac-for-devops-pipelines-assignment-2/blob/b467d11811f0a86c1356d965269e4d59e1eff3ed/infra/deploy/variables.tf#L22).
+
 ## Running
 
 Some pre-requisites to running the state locally
